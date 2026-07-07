@@ -1,5 +1,5 @@
 # Better Todos
-
+A VS Code extension that centralizes task management by combining code TODOs, local, and global tasks in a single sidebar.
 - Creates to-do lists from comments in your code.
 - Easily jump to the location of a TODO in your code.
 - Mark them as complete
