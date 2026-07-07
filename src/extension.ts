@@ -8,6 +8,10 @@ import { CodeTodo } from './types';
 let storageManager: StorageManager;
 let todoParser: TodoParser;
 let viewProvider: BetterTodosViewProvider | undefined;
+let importantDecoration: vscode.TextEditorDecorationType;
+let normalDecoration: vscode.TextEditorDecorationType;
+let importantCompletedDecoration: vscode.TextEditorDecorationType;
+let normalCompletedDecoration: vscode.TextEditorDecorationType;
 
 export function activate(context: vscode.ExtensionContext) {
   console.log('Better Todos extension activated');
@@ -38,6 +42,49 @@ export function activate(context: vscode.ExtensionContext) {
     fileWatcher.onDidCreate(() => viewProvider?.refresh()),
     fileWatcher.onDidDelete(() => viewProvider?.refresh())
   );
+
+  // Create decoration types for highlighting TODOs
+  importantDecoration = vscode.window.createTextEditorDecorationType({
+    color: 'rgb(218, 0, 0)',
+  });
+
+  normalDecoration = vscode.window.createTextEditorDecorationType({
+    color: 'rgb(228, 168, 1)',
+  });
+
+  importantCompletedDecoration = vscode.window.createTextEditorDecorationType({
+    color: 'rgba(255, 15, 15, 0.88)',
+    textDecoration: 'line-through',
+  });
+
+  normalCompletedDecoration = vscode.window.createTextEditorDecorationType({
+    color: 'rgba(252, 185, 0, 0.85)',
+    textDecoration: 'line-through',
+  });
+
+  // Update decorations for visible editors
+  const updateAllDecorations = () => {
+    vscode.window.visibleTextEditors.forEach(editor => {
+      try {
+        updateTodoDecorations(editor);
+      } catch (err) {
+        console.error('Error updating decorations:', err);
+      }
+    });
+  };
+
+  // Listen to editor/document changes to refresh decorations
+  context.subscriptions.push(
+    vscode.window.onDidChangeActiveTextEditor(updateAllDecorations),
+    vscode.workspace.onDidChangeTextDocument(e => {
+      const editor = vscode.window.visibleTextEditors.find(ed => ed.document === e.document);
+      if (editor) updateTodoDecorations(editor);
+    }),
+    vscode.window.onDidChangeVisibleTextEditors(updateAllDecorations)
+  );
+
+  // Initial decoration pass
+  updateAllDecorations();
 
   console.log('Better Todos extension setup complete');
 }
@@ -111,6 +158,104 @@ async function viewCodeTodo(filePath: string, lineNumber: number) {
     console.error('Error viewing code TODO:', errorMsg);
     vscode.window.showErrorMessage(`Failed to open file: ${errorMsg}`);
   }
+}
+
+function updateTodoDecorations(editor: vscode.TextEditor) {
+  const doc = editor.document;
+  const text = doc.getText();
+
+  const importantDecs: vscode.DecorationOptions[] = [];
+  const normalDecs: vscode.DecorationOptions[] = [];
+  const importantCompletedDecs: vscode.DecorationOptions[] = [];
+  const normalCompletedDecs: vscode.DecorationOptions[] = [];
+
+  // Scan single-line comments (# and //)
+  // Scan single-line comments (//, #, --)
+  for (let i = 0; i < doc.lineCount; i++) {
+    const line = doc.lineAt(i).text;
+
+    // Matches:
+    // // TODO
+    // //! TODO
+    // // !TODO
+    // # TODO
+    // #! TODO
+    // # !TODO
+    // -- TODO
+    // --! TODO
+    // -- !TODO
+    const match = line.match(/(\/\/|#|--)\s*(!)?\s*TODO\b(.*)/i);
+
+    if (!match) continue;
+
+    const start = match.index!;
+    const end = line.length;
+    const isCompleted = /\[x\]/i.test(match[3]);
+    const decoration = {
+      range: new vscode.Range(i, start, i, end),
+    };
+
+    if (match[2]) {
+      if (isCompleted) {
+        importantCompletedDecs.push(decoration);
+      } else {
+        importantDecs.push(decoration);
+      }
+    } else {
+      if (isCompleted) {
+        normalCompletedDecs.push(decoration);
+      } else {
+        normalDecs.push(decoration);
+      }
+    }
+  }
+
+  // Scan block comments and highlight first TODO line inside block
+  const blockRegex = /\/\*[\s\S]*?\*\//g;
+  let m: RegExpExecArray | null;
+  while ((m = blockRegex.exec(text)) !== null) {
+    const blockStartIndex = m.index;
+    const block = m[0];
+    const inner = block.replace(/^\/\*/, '').replace(/\*\/$/, '');
+    const innerLines = inner.split(/\r?\n/);
+    for (let j = 0; j < innerLines.length; j++) {
+      const raw = innerLines[j].replace(/^\s*\*?\s*/, '');
+      if (!raw.trim()) continue;
+      const upper = raw.toUpperCase();
+      const tIdx = upper.indexOf('TODO');
+      if (tIdx === -1) break; // only consider first meaningful line
+
+      const blockStartLine = doc.positionAt(blockStartIndex).line;
+      const targetLine = blockStartLine + j;
+      if (targetLine >= doc.lineCount) break;
+      const lineText = doc.lineAt(targetLine).text;
+      const todoPos = lineText.toUpperCase().indexOf('TODO');
+      if (todoPos === -1) break;
+
+      // determine importance (if raw starts with '!')
+      const completed = /\[x\]/i.test(raw);
+      const range = new vscode.Range(targetLine, todoPos, targetLine, lineText.length);
+      if (/^\s*!/.test(raw)) {
+        if (completed) {
+          importantCompletedDecs.push({ range });
+        } else {
+          importantDecs.push({ range });
+        }
+      } else {
+        if (completed) {
+          normalCompletedDecs.push({ range });
+        } else {
+          normalDecs.push({ range });
+        }
+      }
+      break;
+    }
+  }
+
+  editor.setDecorations(importantDecoration, importantDecs);
+  editor.setDecorations(normalDecoration, normalDecs);
+  editor.setDecorations(importantCompletedDecoration, importantCompletedDecs);
+  editor.setDecorations(normalCompletedDecoration, normalCompletedDecs);
 }
 
 class BetterTodosViewProvider implements vscode.WebviewViewProvider {
@@ -358,4 +503,11 @@ class BetterTodosViewProvider implements vscode.WebviewViewProvider {
   }
 }
 
-export function deactivate() {}
+export function deactivate() {
+  try {
+    importantDecoration?.dispose();
+    normalDecoration?.dispose();
+  } catch (err) {
+    // ignore
+  }
+}
