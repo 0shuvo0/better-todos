@@ -1,0 +1,88 @@
+{
+  "name": "better-todos",
+  "displayName": "Better Todos",
+  "description": "Centralized task management combining code TODOs, local, and global tasks in a single sidebar",
+  "version": "0.1.0",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "icon": "media/icon.png",
+  "contributes": {
+    "commands": [
+      {
+        "command": "bettertodos.addLocalTodo",
+        "title": "Add Local TODO",
+        "category": "Better Todos"
+      },
+      {
+        "command": "bettertodos.addGlobalTodo",
+        "title": "Add Global TODO",
+        "category": "Better Todos"
+      },
+      {
+        "command": "bettertodos.refreshCodeTodos",
+        "title": "Refresh Code TODOs",
+        "category": "Better Todos"
+      },
+      {
+        "command": "bettertodos.completeTodo",
+        "title": "Complete TODO",
+        "category": "Better Todos"
+      },
+      {
+        "command": "bettertodos.deleteTodo",
+        "title": "Delete TODO",
+        "category": "Better Todos"
+      },
+      {
+        "command": "bettertodos.viewCodeTodo",
+        "title": "View Code TODO",
+        "category": "Better Todos"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "better-todos-view",
+          "title": "Better Todos",
+          "icon": "media/icon-activity.svg"
+        }
+      ]
+    },
+    "views": {
+      "better-todos-view": [
+        {
+          "type": "webview",
+          "id": "better-todos-panel",
+          "name": " ",
+          "when": "true"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src --ext ts",
+    "pretest": "npm run compile && npm run lint",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.75.0",
+    "@types/node": "16.x",
+    "@types/glob": "^8.1.0",
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/parser": "^5.62.0",
+    "eslint": "^8.40.0",
+    "glob": "^8.1.0",
+    "typescript": "^5.1.3"
+  }
+}

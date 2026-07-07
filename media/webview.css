@@ -1,0 +1,233 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background-color: var(--vscode-editor-background);
+  color: var(--vscode-editor-foreground);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--vscode-panel-border);
+  background-color: var(--vscode-tab-inactiveBackground);
+}
+
+.tab-button {
+  flex: 1;
+  padding: 10px 12px;
+  background: none;
+  border: none;
+  color: var(--vscode-tab-inactiveForeground);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.tab-button:hover {
+  background-color: var(--vscode-tab-hoverBackground);
+}
+
+.tab-button.active {
+  background-color: var(--vscode-tab-activeBackground);
+  color: var(--vscode-tab-activeForeground);
+  border-bottom-color: var(--vscode-tab-activeBorderTop);
+}
+
+.tab-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+  display: none;
+}
+
+.tab-content.active {
+  display: flex;
+  flex-direction: column;
+}
+
+.add-todo-button {
+  padding: 8px 12px;
+  margin: 8px;
+  background-color: var(--vscode-button-background);
+  color: var(--vscode-button-foreground);
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.add-todo-button:hover {
+  background-color: var(--vscode-button-hoverBackground);
+}
+
+.todo-item {
+  background-color: var(--vscode-input-background);
+  border: 1px solid var(--vscode-input-border);
+  border-radius: 4px;
+  padding: 10px;
+  padding-left: 12px;
+  border-left-width: 4px;
+  border-left-style: solid;
+  border-left-color: transparent;
+  margin-bottom: 8px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.todo-item:hover {
+  border-color: var(--vscode-focusBorder);
+}
+
+.todo-checkbox {
+  margin-top: 2px;
+  cursor: pointer;
+  min-width: 20px;
+}
+
+.todo-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.todo-title {
+  font-weight: 500;
+  word-break: break-word;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.todo-title.completed {
+  color: var(--vscode-disabledForeground);
+  text-decoration: line-through;
+}
+
+.priority-badge {
+  display: none;
+}
+
+/* Priority indicated by a colored left border */
+.todo-item.normal {
+  border-left-color: #007acc; /* VS Code blue */
+}
+
+.todo-item.important {
+  border-left-color: #d16969; /* red */
+  background-color: rgba(209,105,105,0.06);
+}
+
+.todo-description {
+  font-size: 12px;
+  color: var(--vscode-descriptionForeground);
+  margin-top: 4px;
+  word-break: break-word;
+  max-height: 60px;
+  overflow: hidden;
+}
+
+.todo-meta {
+  font-size: 11px;
+  color: var(--vscode-disabledForeground);
+  margin-top: 4px;
+}
+
+.todo-actions {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+input[type="checkbox"]{
+  outline: none;
+}
+.action-button {
+  padding: 4px 6px;
+  background: none;
+  border: none;
+  color: var(--vscode-button-foreground);
+  cursor: pointer;
+  border-radius: 2px;
+  font-size: 11px;
+  transition: all 0.2s ease;
+}
+
+.action-button:hover {
+  background-color: var(--vscode-button-hoverBackground);
+}
+
+.action-button.delete {
+  color: #d16969;
+  border-color: #d16969;
+}
+
+.action-button.delete:hover {
+  background-color: #d16969;
+  color: white;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--vscode-disabledForeground);
+  text-align: center;
+  padding: 20px;
+}
+
+.empty-state p {
+  margin: 10px 0;
+  font-size: 12px;
+}
+
+.todo-list {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.view-button {
+  color: var(--vscode-textLink-foreground);
+  font-size: 11px;
+  text-decoration: underline;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.view-button:hover {
+  color: var(--vscode-textLink-activeForeground);
+}
+
+/* Footer message shown at bottom of each tab */
+.tab-footer {
+  padding: 4px 9px 2px 9px;
+  font-size: 11px;
+  color: var(--vscode-disabledForeground);
+  border-top: 1px solid var(--vscode-panel-border);
+  background: transparent;
+  margin-top: 8px;
+  text-align: center;
+}
