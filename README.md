@@ -5,6 +5,7 @@ A VS Code extension that centralizes task management by combining code TODOs, lo
 - Mark them as complete
 - Priority levels: Normal or Important
 - Manual local and global todos
+- Highlight comments in your code that contain TODOs.
 
 ![Demo](https://raw.githubusercontent.com/0shuvo0/better-todos/main/media/demo.gif)
 
