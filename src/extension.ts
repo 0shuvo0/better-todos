@@ -59,7 +59,7 @@ export function activate(context: vscode.ExtensionContext) {
   });
 
   normalCompletedDecoration = vscode.window.createTextEditorDecorationType({
-    color: 'rgb(218, 0, 0)',
+    color: 'rgb(228, 168, 1)',
     textDecoration: 'line-through',
   });
 
