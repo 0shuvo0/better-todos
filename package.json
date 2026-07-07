@@ -3,7 +3,7 @@
   "displayName": "Better Todos",
   "description": "Centralized task management combining code TODOs, local, and global tasks in a single sidebar",
   "publisher": "0shuvo0",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "engines": {
     "vscode": "^1.75.0"
   },

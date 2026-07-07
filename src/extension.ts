@@ -44,6 +44,7 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   // Create decoration types for highlighting TODOs
+  //TODO: Use better colors
   importantDecoration = vscode.window.createTextEditorDecorationType({
     color: 'rgb(218, 0, 0)',
   });
@@ -53,12 +54,12 @@ export function activate(context: vscode.ExtensionContext) {
   });
 
   importantCompletedDecoration = vscode.window.createTextEditorDecorationType({
-    color: 'rgba(255, 15, 15, 0.88)',
+    color: 'rgb(218, 0, 0)',
     textDecoration: 'line-through',
   });
 
   normalCompletedDecoration = vscode.window.createTextEditorDecorationType({
-    color: 'rgba(252, 185, 0, 0.85)',
+    color: 'rgb(218, 0, 0)',
     textDecoration: 'line-through',
   });
 
