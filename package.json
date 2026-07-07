@@ -2,18 +2,23 @@
   "name": "better-todos",
   "displayName": "Better Todos",
   "description": "Centralized task management combining code TODOs, local, and global tasks in a single sidebar",
-  "version": "0.1.0",
+  "publisher": "0shuvo0",
+  "version": "1.0.0",
   "engines": {
     "vscode": "^1.75.0"
   },
   "categories": [
     "Other"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/0shuvo0/better-todos"
+  },
   "activationEvents": [
     "onStartupFinished"
   ],
   "main": "./out/extension.js",
-  "icon": "media/icon.png",
+  "icon": "media/icon.ico",
   "contributes": {
     "commands": [
       {
