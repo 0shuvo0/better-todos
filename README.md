@@ -2,51 +2,32 @@
 
 Better Todos is a VS Code extension that centralizes task management by combining code comments, project-specific TODOs, and global TODOs into a single sidebar experience.
 
-## Features
+![Demo](https://raw.githubusercontent.com/0shuvo0/better-todos/main/media/demo.gif)
 
-### Code TODOs
-Automatically discovers and displays TODO comments in your source files. Navigate directly to the TODO location in your code.
 
+### 📝 Code TODOs
+Automatically finds TODO comments in your source files and lets you jump straight to their location in code.
+![Syntax](https://raw.githubusercontent.com/0shuvo0/better-todos/main/media/syntax.png)
+ 
 **Supported formats:**
-- Single-line comments: `// TODO: Task`, `# TODO: Task`
-- Multi-line comments: `/* TODO: ... */`, `''' TODO: ... '''`, `""" TODO: ... """`
-- Checkboxes: `// TODO: [x] Completed task`
-- Priority: `// !TODO: Important task`
+| Type | Example |
+|------|---------|
+| Single-line | `// TODO: Task`, `# TODO: Task` |
+| Multi-line | `/* TODO: ... */`, `""" TODO: ... """` |
+| Checkbox | `// TODO: [x] Completed task` |
+| Priority | `// !TODO: Important task` |
+ 
+### 📁 Local TODOs
+Workspace-specific tasks that persist between sessions.
+ 
+- Title + optional description
+- Priority levels: Normal or Important
+- Mark as complete
 
-### Local TODOs
-Workspace-specific tasks that persist between sessions. Create custom TODOs with:
-- Title
-- Optional description
-- Priority levels (Normal or Important)
-- Completion status
+### 🌐 Global TODOs
+Same as Local TODOs, but accessible across every workspace — not tied to a single project.
+ 
 
-### Global TODOs
-Cross-workspace tasks accessible from any VS Code project. Same features as Local TODOs but available globally.
+## [Support the project](https://buymeacoffee.com/0shuvo0)
+If you find this extension useful, consider supporting its development by [buying me a coffee](https://buymeacoffee.com/0shuvo0). Your support helps me continue improving and maintaining the project. Thank you!
 
-## How to Use
-
-1. **Open the sidebar:** Click the Better Todos icon in the Activity Bar
-2. **Switch tabs:** Choose between Code, Local, and Global TODOs
-3. **Add a TODO:** Click "Add TODO" in Local or Global tabs
-4. **Complete a TODO:** Check the checkbox to mark as complete
-5. **View Code TODO:** Click the "View" button to navigate to the source
-6. **Delete a TODO:** Click the delete button with confirmation
-
-## Installation
-
-1. Open VS Code
-2. Go to Extensions (Ctrl+Shift+X / Cmd+Shift+X)
-3. Search for "Better Todos"
-4. Click Install
-
-## Extension Settings
-
-No configuration needed! The extension works out of the box.
-
-## Contributing
-
-Feel free to report issues or suggest features on GitHub.
-
-## License
-
-MIT
